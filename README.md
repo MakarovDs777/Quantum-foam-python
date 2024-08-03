@@ -4,7 +4,7 @@
 
 ## Векторное квантовое поле
 
-[url=https://postimg.cc/4YndM7Tg][img]https://i.postimg.cc/4YndM7Tg/2024-08-01-00-19-59-981.gif[/img][/url]
+[2024-08-01-00-19-59-981.gif](https://postimg.cc/4YndM7Tg)
 
 ## Random Vector Field.py
 
