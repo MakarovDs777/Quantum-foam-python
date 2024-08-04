@@ -25,6 +25,8 @@
 
 ## Quantum foam in a 3d cube (isocaps).py
 
+![Запись_2024_08_04_21_34_00_940](https://github.com/user-attachments/assets/c9055a0e-7111-4154-8fad-d921272db11d)
+
 ## Quantum foam in a 3d cube (sphere).py
 
 ![2024-08-03-14-33-24-648](https://github.com/user-attachments/assets/e7c4fab9-5532-4e70-a109-ac64976f5fdd)
