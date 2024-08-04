@@ -32,3 +32,8 @@
 ## Quantum foam in a 3d cube (with voids).py
 
 ![2024-08-03-13-57-48-937](https://github.com/user-attachments/assets/4b8b1ba0-4cc8-4165-9783-bf26516ca87d)
+
+## Quantum foam 3D FPS game.py
+
+![2024-08-04-18-36-51-101](https://github.com/user-attachments/assets/286190d8-8a15-48de-8299-cdaacaba7c72)
+
