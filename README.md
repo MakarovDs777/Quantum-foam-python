@@ -7,7 +7,11 @@
 
 ## Classical Vector Field.py
 
+![Запись_2024_08_04_21_14_43_669](https://github.com/user-attachments/assets/c2bf7bee-8789-4c22-9ef1-d743bdd57170)
+
 ## Random Vector Field.py
+
+![Запись_2024_08_04_21_18_31_556](https://github.com/user-attachments/assets/8a4cf994-ff0e-4203-86c5-d633392400b6)
 
 ## Quantum foam in a 3d cube (arrows).py
 
