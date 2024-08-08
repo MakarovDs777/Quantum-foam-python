@@ -40,5 +40,6 @@
 ![2024-08-04-18-36-51-101](https://github.com/user-attachments/assets/286190d8-8a15-48de-8299-cdaacaba7c72)
 
 ## Isosurface quantom foam.py
-[[2024-08-09-01-12-12-580](https://raw.githubusercontent.com/MakarovDs777/Quantum-foam-in-a-3d-cube/main/Vector%20fields%20gif's/2024-08-09-01-12-12-580.gif)
-https://github.com/MakarovDs777/Quantum-foam-in-a-3d-cube/blob/main/Vector%20fields%20gif's/2024-08-09-01-12-12-580.gif](https://github.com/MakarovDs777/Quantum-foam-in-a-3d-cube/blob/main/Vector%20fields%20gif's/2024-08-09-01-12-12-580.gif)
+
+![2024-08-09-01-12-12-580](https://github.com/user-attachments/assets/668365fd-06b7-454a-823f-3ba4c22f46ad)
+
