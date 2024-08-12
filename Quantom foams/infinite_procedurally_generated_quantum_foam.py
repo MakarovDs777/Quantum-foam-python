@@ -12,9 +12,9 @@ display = (800, 600)
 pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
 # Инициализация камеры
-gluPerspective(45, (display[0]/display[1]), 0.1, 1000.0)
-glTranslatef(0.0, -50.0, -150.0)  # Переместить камеру вниз и назад
-glRotatef(45, 1, 0, 0)  # Повернуть камеру на 45 градусов вокруг оси X
+gluPerspective(25, (display[0]/display[1]), 0.1, 1000.0)
+glTranslatef(-15, 0.0, -150.0)  # Переместить камеру вниз и назад
+glRotatef(35, 1, 0, 0)  # Повернуть камеру на 45 градусов вокруг оси X
 
 # Параметры шума Перлина
 octaves = 4
