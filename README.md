@@ -3,6 +3,7 @@
 я хотел смоделировать квантовую пену в идеале должно получится как на [![1-Yr4w-E4q4x2-BQ8-Dtbhqcu-Qw.gif](https://i.postimg.cc/q77MN552/1-Yr4w-E4q4x2-BQ8-Dtbhqcu-Qw.gif)](https://postimg.cc/68DNSYwQ) этом Gif визуализация [КХД поля квантовых флуктуаций Дерика Лейнвебера](http://www.physics.adelaide.edu.au/theory/staff/leinweber/VisualQCD/Nobel/)
 
 ## Quantum foam in a 3d cube (white noizes)
+
 ![2024-08-02-23-04-25-751](https://github.com/user-attachments/assets/619a4e39-b054-4053-adb6-8e0211b52394)
 
 ## Classical Vector Field.py
@@ -43,3 +44,4 @@
 
 ![2024-08-09-01-12-12-580](https://github.com/user-attachments/assets/668365fd-06b7-454a-823f-3ba4c22f46ad)
 
+## infinite procedurally generated quantum foam.py
