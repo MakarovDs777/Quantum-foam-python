@@ -13,7 +13,7 @@ display = (800, 600)
 icon = pygame.image.load('PGM.png') 
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Procedural generator maker')
-pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+pygame.display.set_mode((0, 0), FULLSCREEN | DOUBLEBUF | OPENGL)
 
 # Инициализация камеры
 gluPerspective(25, (display[0]/display[1]), 0.1, 1000.0)
@@ -86,41 +86,6 @@ def update(offset):
     glEnd()
     glDisable(GL_BLEND)  # Выключить смешивание цветов
 
-# Гиперкуб
-def generate_hypercube(offset):
-    # Создание 3D-массива случайных чисел
-    random_array = np.random.rand(*shape)
-
-    # Определение типа каждой ячейки гиперкуба
-    cell_types = np.where(random_array < 0.5, 0, 1)  # 0 - портал, 1 - комната
-
-    # Определение свойств каждой ячейки
-    cell_properties = np.random.rand(*shape, 3)  # цвет, размер, форма
-
-    # Создание вершин и граней гиперкуба
-    verts = []
-    faces = []
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            for k in range(shape[2]):
-                if cell_types[i][j][k] == 0:  # портал
-                    verts.append([i, j, k])
-                    faces.append([i, j, k])
-                elif cell_types[i][j][k] == 1:  # комната
-                    verts.append([i, j, k])
-                    faces.append([i, j, k])
-
-    # Отрисовка гиперкуба
-    glColor4f(0.0, 1.0, 0.0, 0.5)  # Зеленый полупрозрачный цвет
-    glEnable(GL_BLEND)  # Включить смешивание цветов
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # Установить функцию смешивания
-    glBegin(GL_TRIANGLES)
-    for face in faces:
-        for vertex_index in face:
-            vertex = verts[vertex_index]
-            glVertex3fv(vertex)
-    glEnd()
-    glDisable(GL_BLEND)  # Выключить смешивание цветов
 
 # Основной цикл
 offset = [0, 0, 0]
@@ -186,7 +151,6 @@ while True:
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
-    generate_hypercube(offset)
 
     # Отрисовка координат
     draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
@@ -206,26 +170,6 @@ while True:
         draw_text((-24, 17.0, 0), "Координата Z: " + z_input + "_", (255, 255, 255))
     else:
         draw_text((-24, 17.0, 0), "Координата Z: " + z_input, (255, 255, 255))
-
-    # Отрисовка кнопки отправить
-    draw_text((-25, 13.0, 0), "Переключиться Tab", (255, 255, 255))
-
-    pygame.display.flip()
-    clock.tick(60)
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    update(offset)
-    generate_hypercube(offset)
-
-    # Отрисовка координат
-    draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
-    draw_text((-22.5, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
-    draw_text((-23, 26.0, 0), "Z: " + str(offset[2]), (255, 255, 255))
-
-    # Отрисовка полей ввода
-    draw_text((-23, 23.0, 0), "Координата X: " + x_input, (255, 255, 255))
-    draw_text((-23.5, 20, 0), "Координата Y: " + y_input, (255, 255, 255))
-    draw_text((-24, 17.0, 0), "Координата Z: " + z_input, (255, 255, 255))
 
     # Отрисовка кнопки отправить
     draw_text((-25, 13.0, 0), "Переключиться Tab", (255, 255, 255))
