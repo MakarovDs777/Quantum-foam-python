@@ -10,6 +10,9 @@ import random
 # Инициализация Pygame
 pygame.init()
 display = (800, 600)
+icon = pygame.image.load('PGM.png') 
+pygame.display.set_icon(icon)
+pygame.display.set_caption('Procedural generator maker')
 pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
 # Инициализация камеры
@@ -186,8 +189,8 @@ while True:
     generate_hypercube(offset)
 
     # Отрисовка координат
-    draw_text((-23, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
-    draw_text((-23, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
+    draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
+    draw_text((-22.5, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
     draw_text((-23, 26.0, 0), "Z: " + str(offset[2]), (255, 255, 255))
 
     # Отрисовка полей ввода
@@ -215,8 +218,8 @@ while True:
     generate_hypercube(offset)
 
     # Отрисовка координат
-    draw_text((-23, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
-    draw_text((-23, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
+    draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
+    draw_text((-22.5, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
     draw_text((-23, 26.0, 0), "Z: " + str(offset[2]), (255, 255, 255))
 
     # Отрисовка полей ввода
