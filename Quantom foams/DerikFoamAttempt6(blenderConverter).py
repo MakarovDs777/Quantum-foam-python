@@ -85,7 +85,7 @@ def update(offset):
     verts, faces, normals, values = measure.marching_cubes(U, level=0.5)
 
     # Отрисовка изосурфейса
-    glColor4f(0.0, 1.0, 0.0, 1)  # Зеленый полупрозрачный цвет
+    glColor4f(0.0, 1.0, 0.0, 0.5)  # Зеленый полупрозрачный цвет
     glEnable(GL_BLEND)  # Включить смешивание цветов
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # Установить функцию смешивания
     glBegin(GL_TRIANGLES)
@@ -170,6 +170,9 @@ while True:
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
+            if event.key == pygame.K_ESCAPE: 
+                pygame.quit()
+                quit()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
