@@ -162,6 +162,9 @@ while True:
                 draw_text((-20, 10.0, 0), "Файл сохранен!", (255, 255, 255))
                 pygame.display.flip()
                 pygame.time.wait(1000)
+            if event.key == pygame.K_ESCAPE: 
+                pygame.quit()
+                quit()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
