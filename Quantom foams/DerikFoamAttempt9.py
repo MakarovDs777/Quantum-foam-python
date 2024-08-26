@@ -26,8 +26,11 @@ persistence = 0.5
 lacunarity = 2
 scale = 10
 
+# Размер чанка
+chunk_size = 32
+
 # Создание 3D-массива шума Перлина
-shape = (32, 32, 32)
+shape = (chunk_size, chunk_size, chunk_size)
 
 # Нормализация шума в диапазон от 0 до 1
 def normalize_noise(noise):
@@ -125,8 +128,7 @@ def draw_text(position, text_string, color):
 x_input = ""
 y_input = ""
 z_input = ""
-active_field = "x"
-
+chunk_size_input = ""
 seed_input = str(seed)
 active_field = "x"
 
@@ -161,12 +163,20 @@ while True:
                     y_input = y_input[:-1]
                 elif active_field == "z" and z_input!= "":
                     z_input = z_input[:-1]
+                elif active_field == "chunk_size" and chunk_size_input!= "":
+                    chunk_size_input = chunk_size_input[:-1]
+                elif active_field == "seed" and seed_input!= "":
+                    seed_input = seed_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
                 elif active_field == "y":
                     active_field = "z"
                 elif active_field == "z":
+                    active_field = "chunk_size"
+                elif active_field == "chunk_size":
+                    active_field = "seed"
+                elif active_field == "seed":
                     active_field = "x"
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
@@ -175,6 +185,10 @@ while True:
                     y_input += event.unicode
                 elif active_field == "z":
                     z_input += event.unicode
+                elif active_field == "chunk_size":
+                    chunk_size_input += event.unicode
+                elif active_field == "seed":
+                    seed_input += event.unicode
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
@@ -184,24 +198,13 @@ while True:
             if event.key == pygame.K_F1:
                 seed = random.randint(0, 1000)
                 chunks = {}  # Очистка словаря чанков
+            if event.key == pygame.K_F2:
+                chunk_size = int(chunk_size_input)
+                chunk_size_input = ""
+                shape = (chunk_size, chunk_size, chunk_size)
             if event.key == pygame.K_RETURN:
                 seed = int(seed_input)
                 chunks = {}  # Очистка словаря чанков
-            if event.unicode.isdigit():
-                if active_field == "seed":
-                    seed_input += event.unicode
-            if event.key == pygame.K_BACKSPACE:
-                if active_field == "seed" and seed_input!= "":
-                    seed_input = seed_input[:-1]
-            if event.key == pygame.K_TAB:
-                if active_field == "x":
-                    active_field = "y"
-                elif active_field == "y":
-                    active_field = "z"
-                elif active_field == "z":
-                    active_field = "seed"
-                elif active_field == "seed":
-                    active_field = "x"
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
@@ -224,13 +227,17 @@ while True:
         draw_text((-24, 17.0, 0), "Координата Z: " + z_input + "_", (255, 255, 255))
     else:
         draw_text((-24, 17.0, 0), "Координата Z: " + z_input, (255, 255, 255))
+    if active_field == "chunk_size":
+        draw_text((-26.5, 4.0, 0), "Размер чанка: " + chunk_size_input + "_", (255, 255, 255))
+    else:
+        draw_text((-26.5, 4.0, 0), "Размер чанка: " + str(chunk_size), (255, 255, 255))
     if active_field == "seed":
         draw_text((-25.5, 10.0, 0), "Поменять сид мира: " + seed_input + "_", (255, 255, 255))
     else:
         draw_text((-25.5, 10.0, 0), "Поменять сид мира: " + seed_input, (255, 255, 255))
 
     # Отрисовка кнопки отправить
-    draw_text((-25, 13.0, 0), "Переключиться Tab/Ввести случайный сид F1", (255, 255, 255))
+    draw_text((-25, 13.0, 0), "Переключиться Tab/Ввести случайный сид F1/Изменить размер чанка F2", (255, 255, 255))
 
     # Отрисовка сид мира
     draw_text((-26, 7.0, 0), "Сид мира: " + str(seed), (255, 255, 255))
