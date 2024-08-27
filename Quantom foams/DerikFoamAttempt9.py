@@ -48,6 +48,7 @@ def generate_noise(base, offset):
     for i in range(shape[0]):
         for j in range(shape[1]):
             for k in range(shape[2]):
+                # Добавьте уникальный шум для каждого чанка
                 noise[i][j][k] = perlin_noise.pnoise3((i + offset[0]) / scale,
                                                      (j + offset[1]) / scale,
                                                      (k + offset[2]) / scale,
@@ -57,7 +58,17 @@ def generate_noise(base, offset):
                                                      repeatx=shape[0],
                                                      repeaty=shape[1],
                                                      repeatz=shape[2],
-                                                     base=int(base))
+                                                     base=base) + \
+                                perlin_noise.pnoise3((i + offset[0]) / (scale * 10),
+                                                     (j + offset[1]) / (scale * 10),
+                                                     (k + offset[2]) / (scale * 10),
+                                                     octaves=octaves,
+                                                     persistence=persistence,
+                                                     lacunarity=lacunarity,
+                                                     repeatx=shape[0],
+                                                     repeaty=shape[1],
+                                                     repeatz=shape[2],
+                                                     base=random.randint(0, 1000))
     return normalize_noise(noise)
 
 # Оператор размазывания
@@ -137,6 +148,7 @@ persistence_input = str(persistence)
 lacunarity_input = str(lacunarity)
 scale_input = str(scale)
 smear_input = ""
+single_base_input = "no"
 active_field = "x"
 
 current_mode = "main"
@@ -180,6 +192,18 @@ while True:
                 elif active_field == "smear":
                     smear = int(smear_input)
                     smear_input = ""
+                elif active_field == "single_base":
+                    if single_base_input.lower() == "yes":
+                        base = random.randint(0, 1000)
+                        chunks = {}  # Очистка словаря чанков
+                        for offset in chunks:
+                            noise = generate_noise(base, offset)
+                            for i in range(50 - smear):  # 50 размазываний
+                                noise = smear_operator(noise)
+                            chunks[offset] = noise
+                    elif single_base_input.lower() == "no":
+                        chunks = {}  # Очистка словаря чанков
+                    single_base_input = ""
             if event.key == pygame.K_BACKSPACE:
                 if active_field == "x" and x_input!= "":
                     x_input = x_input[:-1]
@@ -203,6 +227,8 @@ while True:
                     scale_input = scale_input[:-1]
                 elif active_field == "smear" and smear_input!= "":
                     smear_input = smear_input[:-1]
+                elif active_field == "single_base" and single_base_input!= "":
+                    single_base_input = single_base_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
@@ -213,6 +239,8 @@ while True:
                 elif active_field == "chunk_size":
                     active_field = "seed"
                 elif active_field == "seed":
+                    active_field = "single_base"
+                elif active_field == "single_base":
                     active_field = "x"
                 elif active_field == "lang":
                     active_field = "octaves"
@@ -225,7 +253,7 @@ while True:
                 elif active_field == "scale":
                     active_field = "smear"
                 elif active_field == "smear":
-                    active_field = "lang"
+                    active_field = "lang"               
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
                     x_input += event.unicode
@@ -248,6 +276,11 @@ while True:
                     scale_input += event.unicode
                 elif active_field == "smear":
                     smear_input += event.unicode
+            if event.unicode.isalpha():
+                if active_field == "lang":
+                    lang_input += event.unicode
+                elif active_field == "single_base":
+                    single_base_input += event.unicode
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
@@ -271,9 +304,6 @@ while True:
                 else:
                     current_mode = "main"
                     active_field = "x"
-            if event.unicode.isalpha():
-                if active_field == "lang":
-                    lang_input += event.unicode
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
@@ -301,6 +331,10 @@ while True:
             draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input + "_", (255, 255, 255))
         else:
             draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input, (255, 255, 255))
+        if active_field == "single_base":
+            draw_text((-26.5, 5.0, 0), "Единый base мира (yes/no): " + single_base_input + "_", (255, 255, 255))
+        else:
+            draw_text((-26.5, 5.0, 0), "Единый base мира (yes/no): " + single_base_input, (255, 255, 255))
 
         # Отрисовка координат
         draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
@@ -342,7 +376,7 @@ while True:
             draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input + "_", (255, 255, 255))
         else:
             draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
-
+            
     # Отрисовка кнопки Merge
     draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 меню настроек", (255, 255, 255))
 
