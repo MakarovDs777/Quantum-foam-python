@@ -131,6 +131,10 @@ z_input = ""
 chunk_size_input = ""
 seed_input = str(seed)
 lang_input = ""
+octaves_input = str(octaves)
+persistence_input = str(persistence)
+lacunarity_input = str(lacunarity)
+scale_input = str(scale)
 active_field = "x"
 
 current_mode = "main"
@@ -159,6 +163,18 @@ while True:
                     x_input = ""
                     y_input = ""
                     z_input = ""
+                elif active_field == "octaves":
+                    octaves = int(octaves_input)
+                    octaves_input = ""
+                elif active_field == "persistence":
+                    persistence = float(persistence_input)
+                    persistence_input = ""
+                elif active_field == "lacunarity":
+                    lacunarity = float(lacunarity_input)
+                    lacunarity_input = ""
+                elif active_field == "scale":
+                    scale = float(scale_input)
+                    scale_input = ""
             if event.key == pygame.K_BACKSPACE:
                 if active_field == "x" and x_input!= "":
                     x_input = x_input[:-1]
@@ -172,6 +188,14 @@ while True:
                     seed_input = seed_input[:-1]
                 elif active_field == "lang" and lang_input!= "":
                     lang_input = lang_input[:-1]
+                elif active_field == "octaves" and octaves_input!= "":
+                    octaves_input = octaves_input[:-1]
+                elif active_field == "persistence" and persistence_input!= "":
+                    persistence_input = persistence_input[:-1]
+                elif active_field == "lacunarity" and lacunarity_input!= "":
+                    lacunarity_input = lacunarity_input[:-1]
+                elif active_field == "scale" and scale_input!= "":
+                    scale_input = scale_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
@@ -183,6 +207,16 @@ while True:
                     active_field = "seed"
                 elif active_field == "seed":
                     active_field = "x"
+                elif active_field == "lang":
+                    active_field = "octaves"
+                elif active_field == "octaves":
+                    active_field = "persistence"
+                elif active_field == "persistence":
+                    active_field = "lacunarity"
+                elif active_field == "lacunarity":
+                    active_field = "scale"
+                elif active_field == "scale":
+                    active_field = "lang"
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
                     x_input += event.unicode
@@ -194,6 +228,15 @@ while True:
                     chunk_size_input += event.unicode
                 elif active_field == "seed":
                     seed_input += event.unicode
+            if event.unicode.isdigit() or event.unicode == ".":
+                if active_field == "octaves":
+                    octaves_input += event.unicode
+                elif active_field == "persistence":
+                    persistence_input += event.unicode
+                elif active_field == "lacunarity":
+                    lacunarity_input += event.unicode
+                elif active_field == "scale":
+                    scale_input += event.unicode
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
@@ -259,9 +302,30 @@ while True:
     elif current_mode == "lang":
         # Отрисовка поля ввода для языка
         if active_field == "lang":
-            draw_text((-22.1, 32.0, 0), "Select Language (Rus/en): " + lang_input + "_", (255, 255, 255))
+            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input + "_", (255, 255, 255))
         else:
-            draw_text((-22.1, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))
+            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))
+
+    # Отрисовка полей ввода для параметров шума Перлина
+        if active_field == "octaves":
+            draw_text((-22.5, 29.0, 0), "Octaves: " + octaves_input + "_", (255, 255, 255))
+        else:
+            draw_text((-22.5, 29.0, 0), "Octaves: " + octaves_input, (255, 255, 255))
+
+        if active_field == "persistence":
+            draw_text((-23, 26.0, 0), "Persistence: " + persistence_input + "_", (255, 255, 255))
+        else:
+            draw_text((-23, 26.0, 0), "Persistence: " + persistence_input, (255, 255, 255))
+
+        if active_field == "lacunarity":
+            draw_text((-23.5, 23.0, 0), "Lacunarity: " + lacunarity_input + "_", (255, 255, 255))
+        else:
+            draw_text((-23.5, 23.0, 0), "Lacunarity: " + lacunarity_input, (255, 255, 255))
+
+        if active_field == "scale":
+            draw_text((-24, 20.0, 0), "Scale: " + scale_input + "_", (255, 255, 255))
+        else:
+            draw_text((-24, 20.0, 0), "Scale: " + scale_input, (255, 255, 255))
 
     # Отрисовка кнопки Merge
     draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 меню настроек", (255, 255, 255))
