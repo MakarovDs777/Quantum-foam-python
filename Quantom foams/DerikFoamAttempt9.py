@@ -25,6 +25,7 @@ octaves = 4
 persistence = 0.5
 lacunarity = 2
 scale = 10
+smear = 0
 
 # Размер чанка
 chunk_size = 32
@@ -75,7 +76,7 @@ chunks = {}  # Словарь для хранения шума каждого ч
 def create_chunk(offset):
     base = random.randint(0, 1000)  # Случайный base для каждого чанка
     noise = generate_noise(base, offset)
-    for i in range(50):  # 50 размазываний
+    for i in range(50 - smear):  # 50 размазываний
         noise = smear_operator(noise)
     chunks[tuple(offset)] = noise
 
@@ -135,6 +136,7 @@ octaves_input = str(octaves)
 persistence_input = str(persistence)
 lacunarity_input = str(lacunarity)
 scale_input = str(scale)
+smear_input = ""
 active_field = "x"
 
 current_mode = "main"
@@ -175,6 +177,9 @@ while True:
                 elif active_field == "scale":
                     scale = float(scale_input)
                     scale_input = ""
+                elif active_field == "smear":
+                    smear = int(smear_input)
+                    smear_input = ""
             if event.key == pygame.K_BACKSPACE:
                 if active_field == "x" and x_input!= "":
                     x_input = x_input[:-1]
@@ -196,6 +201,8 @@ while True:
                     lacunarity_input = lacunarity_input[:-1]
                 elif active_field == "scale" and scale_input!= "":
                     scale_input = scale_input[:-1]
+                elif active_field == "smear" and smear_input!= "":
+                    smear_input = smear_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
@@ -216,6 +223,8 @@ while True:
                 elif active_field == "lacunarity":
                     active_field = "scale"
                 elif active_field == "scale":
+                    active_field = "smear"
+                elif active_field == "smear":
                     active_field = "lang"
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
@@ -237,6 +246,8 @@ while True:
                     lacunarity_input += event.unicode
                 elif active_field == "scale":
                     scale_input += event.unicode
+                elif active_field == "smear":
+                    smear_input += event.unicode
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
@@ -326,6 +337,11 @@ while True:
             draw_text((-24, 20.0, 0), "Scale: " + scale_input + "_", (255, 255, 255))
         else:
             draw_text((-24, 20.0, 0), "Scale: " + scale_input, (255, 255, 255))
+
+        if active_field == "smear":
+            draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input + "_", (255, 255, 255))
+        else:
+            draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
 
     # Отрисовка кнопки Merge
     draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 меню настроек", (255, 255, 255))
