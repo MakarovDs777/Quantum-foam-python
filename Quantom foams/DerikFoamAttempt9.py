@@ -130,7 +130,10 @@ y_input = ""
 z_input = ""
 chunk_size_input = ""
 seed_input = str(seed)
+lang_input = ""
 active_field = "x"
+
+current_mode = "main"
 
 while True:
     for event in pygame.event.get():
@@ -167,6 +170,8 @@ while True:
                     chunk_size_input = chunk_size_input[:-1]
                 elif active_field == "seed" and seed_input!= "":
                     seed_input = seed_input[:-1]
+                elif active_field == "lang" and lang_input!= "":
+                    lang_input = lang_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
@@ -205,42 +210,61 @@ while True:
             if event.key == pygame.K_RETURN:
                 seed = int(seed_input)
                 chunks = {}  # Очистка словаря чанков
+            if event.key == pygame.K_F3:
+                if current_mode == "main":
+                    current_mode = "lang"
+                    active_field = "lang"
+                else:
+                    current_mode = "main"
+                    active_field = "x"
+            if event.unicode.isalpha():
+                if active_field == "lang":
+                    lang_input += event.unicode
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
 
-    # Отрисовка координат
-    draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
-    draw_text((-22.6, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
-    draw_text((-23, 26.0, 0), "Z: " + str(offset[2]), (255, 255, 255))
+    # Отрисовка полей ввода в зависимости от текущего режима отображения
+    if current_mode == "main":
+        # Отрисовка полей ввода для основного режима
+        if active_field == "x":
+            draw_text((-24, 20.0, 0), "Координата X: " + x_input + "_", (255, 255, 255))
+        else:
+            draw_text((-24, 20.0, 0), "Координата X: " + x_input, (255, 255, 255))
+        if active_field == "y":
+            draw_text((-24.5, 17, 0), "Координата Y: " + y_input + "_", (255, 255, 255))
+        else:
+            draw_text((-24.5, 17, 0), "Координата Y: " + y_input, (255, 255, 255))
+        if active_field == "z":
+            draw_text((-25, 14.0, 0), "Координата Z: " + z_input + "_", (255, 255, 255))
+        else:
+            draw_text((-25, 14.0, 0), "Координата Z: " + z_input, (255, 255, 255))
+        if active_field == "chunk_size":
+            draw_text((-25.5, 11.0, 0), "Размер чанка: " + chunk_size_input + "_", (255, 255, 255))
+        else:
+            draw_text((-25.5, 11.0, 0), "Размер чанка: " + str(chunk_size), (255, 255, 255))
+        if active_field == "seed":
+            draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input + "_", (255, 255, 255))
+        else:
+            draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input, (255, 255, 255))
 
-    # Отрисовка полей ввода
-    if active_field == "x":
-        draw_text((-24, 20.0, 0), "Координата X: " + x_input + "_", (255, 255, 255))
-    else:
-        draw_text((-24, 20.0, 0), "Координата X: " + x_input, (255, 255, 255))
-    if active_field == "y":
-        draw_text((-24.5, 17, 0), "Координата Y: " + y_input + "_", (255, 255, 255))
-    else:
-        draw_text((-24.5, 17, 0), "Координата Y: " + y_input, (255, 255, 255))
-    if active_field == "z":
-        draw_text((-25, 14.0, 0), "Координата Z: " + z_input + "_", (255, 255, 255))
-    else:
-        draw_text((-25, 14.0, 0), "Координата Z: " + z_input, (255, 255, 255))
-    if active_field == "chunk_size":
-        draw_text((-25.5, 11.0, 0), "Размер чанка: " + chunk_size_input + "_", (255, 255, 255))
-    else:
-        draw_text((-25.5, 11.0, 0), "Размер чанка: " + str(chunk_size), (255, 255, 255))
-    if active_field == "seed":
-        draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input + "_", (255, 255, 255))
-    else:
-        draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input, (255, 255, 255))
+        # Отрисовка координат
+        draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
+        draw_text((-22.6, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
+        draw_text((-23, 26.0, 0), "Z: " + str(offset[2]), (255, 255, 255))
 
-    # Отрисовка кнопки отправить
-    draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R", (255, 255, 255))
+        # Отрисовка сид мира
+        draw_text((-23.5, 23.0, 0), "Сид мира: " + str(seed), (255, 255, 255))
 
-    # Отрисовка сид мира
-    draw_text((-23.5, 23.0, 0), "Сид мира: " + str(seed), (255, 255, 255))
+    elif current_mode == "lang":
+        # Отрисовка поля ввода для языка
+        if active_field == "lang":
+            draw_text((-22.1, 32.0, 0), "Select Language (Rus/en): " + lang_input + "_", (255, 255, 255))
+        else:
+            draw_text((-22.1, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))
+
+    # Отрисовка кнопки Merge
+    draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 меню настроек", (255, 255, 255))
 
     pygame.display.flip()
     clock.tick(60)
