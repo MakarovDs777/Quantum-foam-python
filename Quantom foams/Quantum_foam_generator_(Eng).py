@@ -378,7 +378,7 @@ while True:
             draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
             
     # Отрисовка кнопки Merge
-    draw_text((-35, -45.0, 0), "Switch to Tab/Enter a random LED F1/Clear the chunk size F2/Save the dump of the R/F3 chunk of the settings menu", (255, 255, 255))
+    draw_text((-35, -45.0, 0), "Switch to Tab/Enter a random seed F1/Clear the chunk size F2/Save the dump of the R/F3 chunk of the settings menu", (255, 255, 255))
 
     pygame.display.flip()
     clock.tick(60)
