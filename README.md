@@ -16,8 +16,6 @@
 
 ## Quantum foam in a 3d cube (arrows).py
 
-## Quantum foam in a 3d cube (gradient noizes).py
-
 ![2024-08-01-00-19-59-981](https://github.com/user-attachments/assets/f9436e6e-95b4-4404-b820-3514450e5ca1)
 
 ## Quantum foam in a 3d cube (isocaps animations).py
