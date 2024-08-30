@@ -297,6 +297,10 @@ while True:
             if event.key == pygame.K_RETURN:
                 seed = int(seed_input)
                 chunks = {}  # Очистка словаря чанков
+                if active_field == "chunk_size":
+                    chunk_size = int(chunk_size_input)
+                    shape = (chunk_size, chunk_size, chunk_size)
+                    chunk_size_input = ""
             if event.key == pygame.K_F3:
                 if current_mode == "main":
                     current_mode = "lang"
@@ -324,9 +328,9 @@ while True:
         else:
             draw_text((-25, 14.0, 0), "Координата Z: " + z_input, (255, 255, 255))
         if active_field == "chunk_size":
-            draw_text((-25.5, 11.0, 0), "Размер чанка: " + chunk_size_input + "_", (255, 255, 255))
+            draw_text((-25.5, 11.0, 0), "LOD: " + chunk_size_input + "_", (255, 255, 255))
         else:
-            draw_text((-25.5, 11.0, 0), "Размер чанка: " + str(chunk_size), (255, 255, 255))
+            draw_text((-25.5, 11.0, 0), "LOD: " + str(chunk_size), (255, 255, 255))
         if active_field == "seed":
             draw_text((-26, 8.0, 0), "Поменять сид мира: " + seed_input + "_", (255, 255, 255))
         else:
