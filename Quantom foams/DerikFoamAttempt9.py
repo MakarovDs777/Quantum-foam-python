@@ -350,36 +350,36 @@ while True:
 
     elif current_mode == "lang":
         # Отрисовка поля ввода для языка
-        if active_field == "lang":
+        '''if active_field == "lang":
             draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input + "_", (255, 255, 255))
         else:
-            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))
+            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))'''
 
     # Отрисовка полей ввода для параметров шума Перлина
         if active_field == "octaves":
-            draw_text((-22.5, 29.0, 0), "Octaves: " + octaves_input + "_", (255, 255, 255))
+            draw_text((-22, 32.0, 0), "Octaves: " + octaves_input + "_", (255, 255, 255))
         else:
-            draw_text((-22.5, 29.0, 0), "Octaves: " + octaves_input, (255, 255, 255))
+            draw_text((-22, 32.0, 0), "Octaves: " + octaves_input, (255, 255, 255))
 
         if active_field == "persistence":
-            draw_text((-23, 26.0, 0), "Persistence: " + persistence_input + "_", (255, 255, 255))
+            draw_text((-22.5, 29.0, 0), "Persistence: " + persistence_input + "_", (255, 255, 255))
         else:
-            draw_text((-23, 26.0, 0), "Persistence: " + persistence_input, (255, 255, 255))
+            draw_text((-22.5, 29.0, 0), "Persistence: " + persistence_input, (255, 255, 255))
 
         if active_field == "lacunarity":
-            draw_text((-23.5, 23.0, 0), "Lacunarity: " + lacunarity_input + "_", (255, 255, 255))
+            draw_text((-23, 26.0, 0), "Lacunarity: " + lacunarity_input + "_", (255, 255, 255))
         else:
-            draw_text((-23.5, 23.0, 0), "Lacunarity: " + lacunarity_input, (255, 255, 255))
+            draw_text((-23, 26.0, 0), "Lacunarity: " + lacunarity_input, (255, 255, 255))
 
         if active_field == "scale":
-            draw_text((-24, 20.0, 0), "Scale: " + scale_input + "_", (255, 255, 255))
+            draw_text((-23.5, 23.0, 0), "Scale: " + scale_input + "_", (255, 255, 255))
         else:
-            draw_text((-24, 20.0, 0), "Scale: " + scale_input, (255, 255, 255))
+            draw_text((-23.5, 23.0, 0), "Scale: " + scale_input, (255, 255, 255))
 
         if active_field == "smear":
-            draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input + "_", (255, 255, 255))
+            draw_text((-24, 20.0, 0), "Smear APE: " + smear_input + "_", (255, 255, 255))
         else:
-            draw_text((-24.5, 17.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
+            draw_text((-24, 20.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
             
     # Отрисовка кнопки Merge
     draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 переключение вкладок", (255, 255, 255))
