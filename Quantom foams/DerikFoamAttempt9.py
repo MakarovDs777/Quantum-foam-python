@@ -151,6 +151,8 @@ smear_input = ""
 single_base_input = "no"
 active_field = "x"
 current_mode = "main"
+move_mode = "chunk"  # "chunk" для по чанкового перемещения, "free" для свободного режима перемещения
+
 
 while True:
     for event in pygame.event.get():
@@ -158,18 +160,32 @@ while True:
             pygame.quit()
             quit()
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                offset[2] += 1
-            if event.key == pygame.K_s:
-                offset[2] -= 1
-            if event.key == pygame.K_a:
-                offset[0] -= 1
-            if event.key == pygame.K_d:
-                offset[0] += 1
-            if event.key == pygame.K_q:
-                offset[1] -= 1
-            if event.key == pygame.K_e:
-                offset[1] += 1
+            if move_mode == "chunk":
+                if event.key == pygame.K_w:
+                    offset[2] += chunk_size
+                if event.key == pygame.K_s:
+                    offset[2] -= chunk_size
+                if event.key == pygame.K_a:
+                    offset[0] -= chunk_size
+                if event.key == pygame.K_d:
+                    offset[0] += chunk_size
+                if event.key == pygame.K_q:
+                    offset[1] -= chunk_size
+                if event.key == pygame.K_e:
+                    offset[1] += chunk_size
+            else:
+                if event.key == pygame.K_w:
+                    offset[2] += 1
+                if event.key == pygame.K_s:
+                    offset[2] -= 1
+                if event.key == pygame.K_a:
+                    offset[0] -= 1
+                if event.key == pygame.K_d:
+                    offset[0] += 1
+                if event.key == pygame.K_q:
+                    offset[1] -= 1
+                if event.key == pygame.K_e:
+                    offset[1] += 1
             if event.key == pygame.K_RETURN:
                 if x_input!= "" and y_input!= "" and z_input!= "":
                     offset = [int(x_input), int(y_input), int(z_input)]
@@ -314,6 +330,11 @@ while True:
                 else:
                     current_mode = "main"
                     active_field = "x"
+            if event.key == pygame.K_F4:
+                if move_mode == "chunk":
+                    move_mode = "free"
+                else:
+                    move_mode = "chunk"
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
 
@@ -390,7 +411,7 @@ while True:
         pass
             
     # Отрисовка кнопки Merge
-    draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 переключение вкладок", (255, 255, 255))
+    draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/переключение вкладок F3/Режим камеры (Почанковое;свободное) перемещение F4", (255, 255, 255))
 
     pygame.display.flip()
     clock.tick(60)
