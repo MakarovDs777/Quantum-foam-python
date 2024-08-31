@@ -150,7 +150,6 @@ scale_input = str(scale)
 smear_input = ""
 single_base_input = "no"
 active_field = "x"
-
 current_mode = "main"
 
 while True:
@@ -241,6 +240,8 @@ while True:
                 elif active_field == "seed":
                     active_field = "single_base"
                 elif active_field == "single_base":
+                    active_field = "optional"
+                elif active_field == "optional":
                     active_field = "x"
                 elif active_field == "lang":
                     active_field = "octaves"
@@ -253,7 +254,7 @@ while True:
                 elif active_field == "scale":
                     active_field = "smear"
                 elif active_field == "smear":
-                    active_field = "lang"               
+                    active_field = "lang"        
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
                     x_input += event.unicode
@@ -279,8 +280,10 @@ while True:
             if event.unicode.isalpha():
                 if active_field == "lang":
                     lang_input += event.unicode
-                elif active_field == "single_base":
+                elif active_field == "optional":
                     single_base_input += event.unicode
+                elif active_field == "single_base":
+                    single_base_input += event.unicode                    
             if event.key == pygame.K_r:
                 verts, faces = update(offset)
                 save_chunk(verts, faces, 'chunk.obj')
@@ -305,10 +308,12 @@ while True:
                 if current_mode == "main":
                     current_mode = "lang"
                     active_field = "lang"
+                elif current_mode == "lang":
+                    current_mode = "optional"
+                    active_field = "optional"
                 else:
                     current_mode = "main"
                     active_field = "x"
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     update(offset)
 
@@ -380,6 +385,9 @@ while True:
             draw_text((-24, 20.0, 0), "Smear APE: " + smear_input + "_", (255, 255, 255))
         else:
             draw_text((-24, 20.0, 0), "Smear APE: " + smear_input, (255, 255, 255))
+
+    elif current_mode == "optional":
+        pass
             
     # Отрисовка кнопки Merge
     draw_text((-35, -45.0, 0), "Переключиться Tab/Ввести случайный сид F1/Очистить размер чанка F2/Сохранить дамп чанка R/F3 переключение вкладок", (255, 255, 255))
