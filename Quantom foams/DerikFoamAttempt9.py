@@ -93,30 +93,31 @@ def create_chunk(offset):
 
 # Функция для обновления кадра
 def update(offset):
-    # Проверить, существует ли шум для текущего чанка
-    if tuple(offset) not in chunks:
-        create_chunk(offset)  # Создать чанк, если его нет
+    if current_mode != "optional":
+        # Проверить, существует ли шум для текущего чанка
+        if tuple(offset) not in chunks:
+            create_chunk(offset)  # Создать чанк, если его нет
 
-    noise = chunks[tuple(offset)]  # Получить шум для текущего чанка
-    U = np.where(noise > 0.5, noise, noise.min())  # Установить значение в минимальное, если шум ниже 0.5
-    U = normalize_noise(U)  # Нормализация массива U
+        noise = chunks[tuple(offset)]  # Получить шум для текущего чанка
+        U = np.where(noise > 0.5, noise, noise.min())  # Установить значение в минимальное, если шум ниже 0.5
+        U = normalize_noise(U)  # Нормализация массива U
 
-    # Создание изосурфейса
-    verts, faces, normals, values = measure.marching_cubes(U, level=0.5)
+        # Создание изосурфейса
+        verts, faces, normals, values = measure.marching_cubes(U, level=0.5)
 
-    # Отрисовка изосурфейса
-    glColor4f(0.0, 1.0, 0.0, 0.5)  # Зеленый полупрозрачный цвет
-    glEnable(GL_BLEND)  # Включить смешивание цветов
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # Установить функцию смешивания
-    glBegin(GL_TRIANGLES)
-    for face in faces:
-        for vertex_index in face:
-            vertex = verts[vertex_index]
-            glVertex3fv(vertex)
-    glEnd()
-    glDisable(GL_BLEND)  # Выключить смешивание цветов
+        # Отрисовка изосурфейса
+        glColor4f(0.0, 1.0, 0.0, 0.5)  # Зеленый полупрозрачный цвет
+        glEnable(GL_BLEND)  # Включить смешивание цветов
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # Установить функцию смешивания
+        glBegin(GL_TRIANGLES)
+        for face in faces:
+            for vertex_index in face:
+                vertex = verts[vertex_index]
+                glVertex3fv(vertex)
+        glEnd()
+        glDisable(GL_BLEND)  # Выключить смешивание цветов
 
-    return verts, faces
+        return verts, faces
 
 # Функция для сохранения чанка в формате.obj
 def save_chunk(verts, faces, filename):
