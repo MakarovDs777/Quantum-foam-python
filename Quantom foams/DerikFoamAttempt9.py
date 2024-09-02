@@ -153,7 +153,8 @@ single_base_input = "no"
 active_field = "x"
 current_mode = "main"
 move_mode = "chunk"  # "chunk" для по чанкового перемещения, "free" для свободного режима перемещения
-
+move_speed = 1
+move_speed_input = ""
 
 while True:
     for event in pygame.event.get():
@@ -163,30 +164,30 @@ while True:
         if event.type == pygame.KEYDOWN:
             if move_mode == "chunk":
                 if event.key == pygame.K_w:
-                    offset[2] += chunk_size
+                    offset[2] += chunk_size * move_speed
                 if event.key == pygame.K_s:
-                    offset[2] -= chunk_size
+                    offset[2] -= chunk_size * move_speed
                 if event.key == pygame.K_a:
-                    offset[0] -= chunk_size
+                    offset[0] -= chunk_size * move_speed
                 if event.key == pygame.K_d:
-                    offset[0] += chunk_size
+                    offset[0] += chunk_size * move_speed
                 if event.key == pygame.K_q:
-                    offset[1] -= chunk_size
+                    offset[1] -= chunk_size * move_speed
                 if event.key == pygame.K_e:
-                    offset[1] += chunk_size
+                    offset[1] += chunk_size * move_speed
             else:
                 if event.key == pygame.K_w:
-                    offset[2] += 1
+                    offset[2] += move_speed
                 if event.key == pygame.K_s:
-                    offset[2] -= 1
+                    offset[2] -= move_speed
                 if event.key == pygame.K_a:
-                    offset[0] -= 1
+                    offset[0] -= move_speed
                 if event.key == pygame.K_d:
-                    offset[0] += 1
+                    offset[0] += move_speed
                 if event.key == pygame.K_q:
-                    offset[1] -= 1
+                    offset[1] -= move_speed
                 if event.key == pygame.K_e:
-                    offset[1] += 1
+                    offset[1] += move_speed
             if event.key == pygame.K_RETURN:
                 if x_input!= "" and y_input!= "" and z_input!= "":
                     offset = [int(x_input), int(y_input), int(z_input)]
@@ -220,6 +221,9 @@ while True:
                     elif single_base_input.lower() == "no":
                         chunks = {}  # Очистка словаря чанков
                     single_base_input = ""
+                elif active_field == "move_speed":
+                    move_speed = int(move_speed_input)
+                    move_speed_input = ""
             if event.key == pygame.K_BACKSPACE:
                 if active_field == "x" and x_input!= "":
                     x_input = x_input[:-1]
@@ -245,6 +249,8 @@ while True:
                     smear_input = smear_input[:-1]
                 elif active_field == "single_base" and single_base_input!= "":
                     single_base_input = single_base_input[:-1]
+                elif active_field == "move_speed" and move_speed_input!= "":
+                    move_speed_input = move_speed_input[:-1]
             if event.key == pygame.K_TAB:
                 if active_field == "x":
                     active_field = "y"
@@ -257,8 +263,8 @@ while True:
                 elif active_field == "seed":
                     active_field = "single_base"
                 elif active_field == "single_base":
-                    active_field = "optional"
-                elif active_field == "optional":
+                    active_field = "move_speed"
+                elif active_field == "move_speed":              
                     active_field = "x"
                 elif active_field == "lang":
                     active_field = "octaves"
@@ -271,6 +277,8 @@ while True:
                 elif active_field == "scale":
                     active_field = "smear"
                 elif active_field == "smear":
+                    active_field = "optional"
+                elif active_field == "optional":
                     active_field = "lang"        
             if event.unicode.isdigit() or event.unicode == "-":
                 if active_field == "x":
@@ -283,6 +291,8 @@ while True:
                     chunk_size_input += event.unicode
                 elif active_field == "seed":
                     seed_input += event.unicode
+                elif active_field == "move_speed":
+                    move_speed_input += event.unicode                    
             if event.unicode.isdigit() or event.unicode == ".":
                 if active_field == "octaves":
                     octaves_input += event.unicode
@@ -366,7 +376,12 @@ while True:
             draw_text((-26.5, 5.0, 0), "Единый base мира (yes/no): " + single_base_input + "_", (255, 255, 255))
         else:
             draw_text((-26.5, 5.0, 0), "Единый base мира (yes/no): " + single_base_input, (255, 255, 255))
+        if active_field == "move_speed":
+            draw_text((-27, 2.0, 0), "Скорость перемещения: " + move_speed_input + "_", (255, 255, 255))
+        else:
+            draw_text((-27, 2.0, 0), "Скорость перемещения: " + str(move_speed), (255, 255, 255))
 
+    
         # Отрисовка координат
         draw_text((-22.1, 32.0, 0), "X: " + str(offset[0]), (255, 255, 255))
         draw_text((-22.6, 29.0, 0), "Y: " + str(offset[1]), (255, 255, 255))
@@ -376,13 +391,7 @@ while True:
         draw_text((-23.5, 23.0, 0), "Сид мира: " + str(seed), (255, 255, 255))
 
     elif current_mode == "lang":
-        # Отрисовка поля ввода для языка
-        '''if active_field == "lang":
-            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input + "_", (255, 255, 255))
-        else:
-            draw_text((-22, 32.0, 0), "Select Language (Rus/en): " + lang_input, (255, 255, 255))'''
-
-    # Отрисовка полей ввода для параметров шума Перлина
+        # Отрисовка полей ввода для параметров шума Перлина
         if active_field == "octaves":
             draw_text((-22, 32.0, 0), "Octaves: " + octaves_input + "_", (255, 255, 255))
         else:
