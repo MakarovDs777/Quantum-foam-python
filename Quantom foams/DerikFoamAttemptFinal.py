@@ -420,9 +420,9 @@ while True:
         else:
             draw_text((-27, 2.0, 0), "Скорость перемещения: " + str(move_speed), (255, 255, 255))
         if active_field == "auto_chunk_random":
-            draw_text((-27.5, -1.0, 0), "Auto chunk random: " + auto_chunk_random_input + "_", (255, 255, 255))
+            draw_text((-27.5, -1.0, 0), "Auto chunk random (on/off): " + auto_chunk_random_input + "_", (255, 255, 255))
         else:
-            draw_text((-27.5, -1.0, 0), "Auto chunk random: " + str(auto_chunk_random), (255, 255, 255))
+            draw_text((-27.5, -1.0, 0), "Auto chunk random (on/off): " + str(auto_chunk_random), (255, 255, 255))
         if active_field == "auto_chunk_random_speed":
             draw_text((-28, -4.0, 0), "Auto chunk random speed: " + auto_chunk_random_speed_input + "_", (255, 255, 255))
         else:
